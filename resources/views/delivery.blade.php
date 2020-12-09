@@ -35,8 +35,7 @@
       <th scope="col">#</th>
       <th scope="col">Package Size</th>
       <th scope="col">Package No</th>
-      
-    </tr>
+          </tr>
   </thead>
   <tbody>
     @php $i = 0; 
