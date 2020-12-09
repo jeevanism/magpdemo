@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class OrderDelivery extends Controller
 {
     //
-      public  $PackageSizesList =array(250,500,1000,2000,5000);
+      public  $PackageSizesList =array(50,250,300,500,1000,2000,5000);
       public  $packList = array();
    	  public  $inputOrder = 0; 	
   	  public  $maxSize; 
@@ -68,12 +68,35 @@ class OrderDelivery extends Controller
     public function orderProcess()
     {        
      // check if the $inputRequest is lower than or equal to the smallest range of the PackageSizeList Array, if yes deliver the smallest package
+
+        if(in_array($this->inputOrder, $this->PackageSizesList))
+            {
+               // $inputOrder = $this->inputOrder
+            $key = array_search($this->inputOrder,$this->PackageSizesList);
+           // dd($key);
+            $this->packList[] = $this->PackageSizesList[$key];
+            $outDelivery = $this->packList;
+               $occurence = array_count_values($outDelivery); // count the occurence of each package
+
+            //return view('delivery',compact('occurence','inputOrder')); // pass values to the view
+            return  view('delivery',[
+                    'occurence' =>$occurence,
+                    'inputOrder' =>$this->inputOrder,
+                    'availablePacks' =>$this->PackageSizesList
+            ]);
+            }
+    
+        
     	 
         if ($this->inputOrder <= $this->PackageSizesList[0]) {
         	 $this->packList[] = $this->PackageSizesList[0];
         	  $outDelivery = $this->packList;
         	   $occurence = array_count_values($outDelivery); // count the occurence of each package
-            return view('delivery',compact('occurence')); // pass values to the view
+            return  view('delivery',[
+                    'occurence' =>$occurence,
+                    'inputOrder' =>$this->inputOrder,
+                    'availablePacks' =>$this->PackageSizesList
+            ]);
         }
       
      
@@ -99,7 +122,11 @@ class OrderDelivery extends Controller
        
         $outDelivery = $this->packList;
         $occurence = array_count_values($outDelivery);     
-        return view('delivery',compact('occurence'));
+        return  view('delivery',[
+                    'occurence' =>$occurence,
+                    'inputOrder' =>$this->inputOrder,
+                    'availablePacks' =>$this->PackageSizesList
+            ]);
         
     }
 
@@ -115,6 +142,7 @@ class OrderDelivery extends Controller
         $keepLowWidgets =[];
         while( $inputOrder > 0){
             $lowerRange = $this->getLowerRange($inputOrder);
+           // dd($lowerRange);
             if($lowerRange < 0){
                 $lowerRange = 0;
             }
