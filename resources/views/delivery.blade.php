@@ -27,6 +27,17 @@
         <div class="container">
            <img class="mb-4" src="{{url('/images/stick.jpg')}}" >
           <h1 class="jumbotron-heading">Widget Delivery</h1>
+          <p>You have ordered <strong>{{$inputOrder}}</strong></p>
+          <p>Avilable packs are 
+             @php $i = 0; 
+
+             @endphp
+           
+              @foreach($availablePacks as $k=>$a)
+                {{$a}},
+                 
+              @endforeach
+          </p>
           <p class="lead text-muted">Below listed packages are out for delivery.</p>
           
           <table class="table table-hover table-dark">
@@ -35,7 +46,8 @@
       <th scope="col">#</th>
       <th scope="col">Package Size</th>
       <th scope="col">Package No</th>
-          </tr>
+      
+    </tr>
   </thead>
   <tbody>
     @php $i = 0; 
