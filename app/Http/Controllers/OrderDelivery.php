@@ -155,12 +155,12 @@ class OrderDelivery extends Controller
                     'availablePacks' =>$this->PackageSizesList
             ]);
         }
-        // if($this->inputOrder <= $this->PackageSizesList[$this->maxSize] && $this->checkTheSum() !=FALSE){
+        if($this->inputOrder <= $this->PackageSizesList[$this->maxSize] && $this->checkTheSum() !=FALSE){
         
 
-        //      $outDelivery = $this->checkTheSum();
+              $outDelivery = $this->checkTheSum();
              
-        // }
+         }
       
      
         // if the $inputRequest is higher than the lowest range then,  using max size index value to set  max range
