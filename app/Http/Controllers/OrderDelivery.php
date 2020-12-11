@@ -12,9 +12,7 @@ class OrderDelivery extends Controller
    	  public  $inputOrder = 0; 	
   	  public  $maxSize; 
    	    	  
-   
-
-    /**
+       /**
      * Order Delivery constructor
      * @param @inputOrder; // POST submit value of input
      * @param $PackageSizesList, the sizes of each packet in ascending order
