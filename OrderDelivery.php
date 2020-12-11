@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class OrderDelivery extends Controller
 {
     //
-      public  $PackageSizesList =array(50,250,300,500,1000,2000,5000);
+      public  $PackageSizesList =array(250,300,500,1000,2000,5000);
       public  $packList = array();
    	  public  $inputOrder = 0; 	
   	  public  $maxSize; 
@@ -35,12 +35,14 @@ class OrderDelivery extends Controller
     public function getLowerRange($inputOrder)
     
     { 		
+
         for($i = $this->maxSize; $i > 0; $i--){
             if($inputOrder > $this->PackageSizesList[$i]){	
-				return $i;
+				 return $i;
+                 
             }
         }
-        return -404;
+        return 0;
     }
 
 
@@ -60,6 +62,61 @@ class OrderDelivery extends Controller
         }
         return -404;
     }
+    public function findFirstOccurence($arr, $n, $x)
+            {
+    $count = 0;
+    $isX = false;
+    for ($i = 0; $i < $n; $i++) 
+    {
+        if ($arr[$i] == $x)
+            $isX = true;
+        else if ($arr[$i] < $x)
+            $count++;
+    }
+    return ($isX == false)? -1 : $count;
+        }
+
+
+
+    public function checkTheSum(){
+        $j=0;
+        $diff1 = array();
+        while($this->inputOrder > $this->PackageSizesList[$j]){
+         
+                 $diff1[] =  $this->inputOrder - $this->PackageSizesList[$j];
+                  $j++;
+        }
+       //  var_dump( $diff1);  
+        // echo'</ br >';
+        // $x = in_array($this->inputOrder, $this->PackageSizesList);
+        $result = array_intersect($diff1, $this->PackageSizesList);
+         //var_dump($result);exit();
+        $foundPack= reset($result);
+        if($foundPack!=NULL){
+             $arr = $this->PackageSizesList;
+         $n = sizeof($arr);
+          $focKey = $this->findFirstOccurence($arr, $n, $foundPack);   
+         //dd($focKey);
+           $focValue =  $this->PackageSizesList[ $focKey];
+           //dd($focValue);
+           $result = $focValue;
+        }
+        else {
+            $result = FALSE;
+        }
+
+
+        
+          
+           //return $focValue;
+           return $result;
+        }
+        
+   
+   
+   
+
+    
 
     /**Process the order Request and setup the Delivery Packages 
      *
@@ -87,28 +144,35 @@ class OrderDelivery extends Controller
             }
     
         
-    	 
+         
         if ($this->inputOrder <= $this->PackageSizesList[0]) {
-        	 $this->packList[] = $this->PackageSizesList[0];
-        	  $outDelivery = $this->packList;
-        	   $occurence = array_count_values($outDelivery); // count the occurence of each package
+             $this->packList[] = $this->PackageSizesList[0];
+              $outDelivery = $this->packList;
+               $occurence = array_count_values($outDelivery); // count the occurence of each package
             return  view('delivery',[
                     'occurence' =>$occurence,
                     'inputOrder' =>$this->inputOrder,
                     'availablePacks' =>$this->PackageSizesList
             ]);
         }
+        if($this->inputOrder <= $this->PackageSizesList[$this->maxSize] && $this->checkTheSum() !=FALSE){
+        
+
+              $outDelivery = $this->checkTheSum();
+             
+         }
       
      
         // if the $inputRequest is higher than the lowest range then,  using max size index value to set  max range
-        while( $this->inputOrder >= $this->PackageSizesList[$this->maxSize]) {	 
+        while( $this->inputOrder >= $this->PackageSizesList[$this->maxSize]) {   
         
             $this->inputOrder = $this->inputOrder - $this->PackageSizesList[$this->maxSize];
             $this->packList[] = $this->PackageSizesList[$this->maxSize];
           
               
         }
-        
+        //echo 'here';exit();
+
         $higherRange = $this->getHigherRange($this->inputOrder);
         
         $upperDiff = $this->inputOrder - $this->PackageSizesList[$higherRange]; // find the upperDifference to keep the values minimum        
@@ -130,6 +194,10 @@ class OrderDelivery extends Controller
         
     }
 
+
+
+ 
+
     /**Use the lowerRange to minimise widget numbers
      *
      * @param $inputOrder
@@ -142,7 +210,7 @@ class OrderDelivery extends Controller
         $keepLowWidgets =[];
         while( $inputOrder > 0){
             $lowerRange = $this->getLowerRange($inputOrder);
-           // dd($lowerRange);
+        // dd($lowerRange);
             if($lowerRange < 0){
                 $lowerRange = 0;
             }
