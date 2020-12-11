@@ -84,11 +84,10 @@ class OrderDelivery extends Controller
                  $diff1[] =  $this->inputOrder - $this->PackageSizesList[$j];
                   $j++;
         }
-       //  var_dump( $diff1);  
-        // echo'</ br >';
+        
         // $x = in_array($this->inputOrder, $this->PackageSizesList);
         $result = array_intersect($diff1, $this->PackageSizesList);
-         //var_dump($result);exit();
+        
         $foundPack= reset($result);
         if($foundPack!=NULL){
              $arr = $this->PackageSizesList;
@@ -96,7 +95,7 @@ class OrderDelivery extends Controller
           $focKey = $this->findFirstOccurence($arr, $n, $foundPack);   
          //dd($focKey);
            $focValue =  $this->PackageSizesList[ $focKey];
-           //dd($focValue);
+           
            $result = $focValue;
         }
         else {
