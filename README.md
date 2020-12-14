@@ -10,6 +10,7 @@ A Widget Company is a widget wholesaler. They sell widgets in a variety of pack 
 ● 1,000 widgets
 ● 2,000 widgets
 ● 5,000 widgets
+
 Their customers can order any number of widgets, but they will always be given complete packs.
 The company wants to be able to fulfil all orders according to the following rules:
 1. Only whole packs can be sent. Packs cannot be broken open.
