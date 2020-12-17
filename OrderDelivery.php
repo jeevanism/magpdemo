@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class OrderDelivery extends Controller
 {
     //
-      public  $PackageSizesList =array(250,300,500,1000,2000,5000);
+      public  $PackageSizesList =array(250,300,500,1000,2000,5000); // assumption array could be sorted or not but we sort it line 24
       public  $packList = array();
    	  public  $inputOrder = 0; 	
   	  public  $maxSize; 
