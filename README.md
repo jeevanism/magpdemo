@@ -4,7 +4,8 @@ A Simple App to deliver the Widget Packages as per few conditions .
 * [The Live Demo is here ](https://jeevanism.com/magp/public/)
 * [Source Code ](https://github.com/jeevanism/magpdemo/tree/master)
 
-* A Widget Company is a widget wholesaler. They sell widgets in a variety of pack sizes:
+## problem to solve :
+A Widget Company is a widget wholesaler. They sell widgets in a variety of pack sizes:
 ● 250 widgets
 ● 500 widgets
 ● 1,000 widgets
